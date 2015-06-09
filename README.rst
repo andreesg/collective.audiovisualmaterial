@@ -1,4 +1,4 @@
 Introduction
 ============
 
-Information about an Exhibition
+Information about Audio-visual materials
