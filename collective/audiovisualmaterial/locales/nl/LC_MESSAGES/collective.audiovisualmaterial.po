@@ -1,0 +1,547 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: collective.audiovisualmaterial\n"
+"POT-Creation-Date: 2015-04-09 15:28+0000\n"
+"PO-Revision-Date: 2015-04-10 15:29+0000’\n"
+"Last-Translator: INTK <info@intk.com>\n"
+"Language-Team: Dutch <info@intk.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language-Code: nl\n"
+"Language-Name: Dutch\n"
+"Preferred-Encodings: utf-8\n"
+"Domain: collective.audiovisualmaterial\n"
+
+#: ../profiles/default/types/Object.xml:7
+msgid "Object"
+msgstr "Objecten"
+
+#: ../profiles/default/types/Object.xml:8
+msgid "Information about an object typically collected by museums"
+msgstr "Informatie over een object meestal verzameld door musea"
+
+#: ../audiovisualmaterial.py
+msgid "Book"
+msgstr "Boeken"
+
+#: ../audiovisualmaterial.py
+msgid "Body"
+msgstr "Tekst"
+
+#: ../audiovisualmaterial.py
+msgid "Description"
+msgstr "Beschrijving"
+
+#: ../audiovisualmaterial.py
+msgid "Body"
+msgstr "Tekst"
+
+#: ../audiovisualmaterial.py
+msgid "Title, author, imprint, collation"
+msgstr "Titel, auteur, impressum, collatie"
+
+#: ../audiovisualmaterial.py
+msgid "Title and author"
+msgstr "Titel en auteur"
+
+#: ../audiovisualmaterial.py
+msgid "Article"
+msgstr "Lidwoord"
+
+#: ../audiovisualmaterial.py
+msgid "Title"
+msgstr "Titel"
+
+#: ../audiovisualmaterial.py
+msgid "Statement of respsib."
+msgstr "Auteursvermelding"
+
+#: ../audiovisualmaterial.py
+msgid "Author"
+msgstr "Auteur"
+
+#: ../audiovisualmaterial.py
+msgid "Role"
+msgstr "Rol"
+
+#: ../audiovisualmaterial.py
+msgid "Illustrator"
+msgstr "Illustrator"
+
+#: ../audiovisualmaterial.py
+msgid "Corp.author"
+msgstr "Corp.auteur"
+
+#: ../audiovisualmaterial.py
+msgid "Edition"
+msgstr "Editie"
+
+#: ../audiovisualmaterial.py
+msgid "Imprint"
+msgstr "Impressum"
+
+#: ../audiovisualmaterial.py
+msgid "Imprint"
+msgstr "Impressum"
+
+#: ../audiovisualmaterial.py
+msgid "Place"
+msgstr "Plaats"
+
+#: ../audiovisualmaterial.py
+msgid "Publisher"
+msgstr "Uitgever"
+
+#: ../audiovisualmaterial.py
+msgid "Year"
+msgstr "Jaar"
+
+#: ../audiovisualmaterial.py
+msgid "Place printed"
+msgstr "Plaats van druk"
+
+#: ../audiovisualmaterial.py
+msgid "Printer"
+msgstr "Drukker"
+
+#: ../audiovisualmaterial.py
+msgid "Sort year"
+msgstr "Sorteerjaar"
+
+#: ../audiovisualmaterial.py
+msgid "Collation"
+msgstr "Collatie"
+
+#: ../audiovisualmaterial.py
+msgid "Pagination"
+msgstr "Pagina's"
+
+#: ../audiovisualmaterial.py
+msgid "Illustrations"
+msgstr "Illustraties"
+
+#: ../audiovisualmaterial.py
+msgid "Dimensions"
+msgstr "Formaat"
+
+#: ../audiovisualmaterial.py
+msgid "Accompanying material"
+msgstr "Begeleidend materiaal"
+
+#: ../audiovisualmaterial.py
+msgid "Series, notes, ISBN"
+msgstr "Reeks, annotatie, ISBN"
+
+#: ../audiovisualmaterial.py
+msgid "Series"
+msgstr "Reeks"
+
+#: ../audiovisualmaterial.py
+msgid "Series article"
+msgstr "Lidwoord reeks"
+
+#: ../audiovisualmaterial.py
+msgid "Series no."
+msgstr "Reeksnummer"
+
+#: ../audiovisualmaterial.py
+msgid "ISSN series"
+msgstr "ISSN reeks"
+
+#: ../audiovisualmaterial.py
+msgid "Subseries"
+msgstr "Onderreeks"
+
+#: ../audiovisualmaterial.py
+msgid "Subseries article"
+msgstr "Onderreeks lidwoord"
+
+#: ../audiovisualmaterial.py
+msgid "Subseries number"
+msgstr "Onderreeks nummer"
+
+#: ../audiovisualmaterial.py
+msgid "ISSN subseries"
+msgstr "ISSN onderreeks"
+
+#: ../audiovisualmaterial.py
+msgid "Notes"
+msgstr "Annotatie"
+
+#: ../audiovisualmaterial.py
+msgid "Bibliographical notes"
+msgstr "Annotatie"
+
+#: ../audiovisualmaterial.py
+msgid "ISBN"
+msgstr "ISBN"
+
+#: ../audiovisualmaterial.py
+msgid "Price"
+msgstr "Prijs"
+
+#: ../audiovisualmaterial.py
+msgid "Binding method"
+msgstr "Bindwijze"
+
+#: ../audiovisualmaterial.py
+msgid "ISSN"
+msgstr "ISSN"
+
+#: ../audiovisualmaterial.py
+msgid "Conference"
+msgstr "Conferentie"
+
+#: ../audiovisualmaterial.py
+msgid "Abstract and subject terms"
+msgstr "Samenvatting, classificatie, trefwoorden"
+
+#: ../audiovisualmaterial.py
+msgid "Material type"
+msgstr "Materiaalsoort"
+
+#: ../audiovisualmaterial.py
+msgid "Bibl. form"
+msgstr "Blibliogr. vorm"
+
+#: ../audiovisualmaterial.py
+msgid "Language"
+msgstr "Taal"
+
+#: ../audiovisualmaterial.py
+msgid "Level"
+msgstr "Niveau"
+
+#: ../audiovisualmaterial.py
+msgid "Class number"
+msgstr "Class. code"
+
+#: ../audiovisualmaterial.py
+msgid "Subject term type"
+msgstr "Soort trefwoord"
+
+#: ../audiovisualmaterial.py
+msgid "Subject term"
+msgstr "Trefwoord"
+
+#: ../audiovisualmaterial.py
+msgid "Proper name"
+msgstr "Eigennaam"
+
+#: ../audiovisualmaterial.py
+msgid "Person keyword type"
+msgstr "Soort pers.trefwoord"
+
+#: ../audiovisualmaterial.py
+msgid "Person keyword type"
+msgstr "Naam"
+
+#: ../audiovisualmaterial.py
+msgid "Role"
+msgstr "Rol"
+
+#: ../audiovisualmaterial.py
+msgid "Geographical keyword"
+msgstr "Greografish trefwoord"
+
+#: ../audiovisualmaterial.py
+msgid "Period"
+msgstr "Periode"
+
+#: ../audiovisualmaterial.py
+msgid "Start date"
+msgstr "Begindatum"
+
+#: ../audiovisualmaterial.py
+msgid "End date"
+msgstr "Einddatum"
+
+#: ../audiovisualmaterial.py
+msgid "Digital references"
+msgstr "Digitale referenties"
+
+#: ../audiovisualmaterial.py
+msgid "Reference"
+msgstr "Referentie"
+
+#: ../audiovisualmaterial.py
+msgid "Abstract"
+msgstr "Samenvatting"
+
+#
+# Reproductions
+#
+
+#: ../audiovisualmaterial.py
+msgid "Reproductions"
+msgstr "Reproducties"
+
+#: ../audiovisualmaterial.py
+msgid "Reproduction"
+msgstr "Reproductie"
+
+#: ../audiovisualmaterial.py
+msgid "Reference"
+msgstr "Referentie"
+
+#: ../audiovisualmaterial.py
+msgid "Format"
+msgstr "Formaat"
+
+#: ../audiovisualmaterial.py
+msgid "Type"
+msgstr "Soort"
+
+#: ../audiovisualmaterial.py
+msgid "Date"
+msgstr "Datum"
+
+#: ../audiovisualmaterial.py
+msgid "Identifier (URL)"
+msgstr "Identifier (URL)"
+
+#: ../audiovisualmaterial.py
+msgid "Notes"
+msgstr "Bijzonderheden"
+
+#
+# exhibitions_auctions_collections
+#
+
+#: ../audiovisualmaterial.py
+msgid "Exhibitions, auctions, collections"
+msgstr "Tentoonstellingen, veilingen, collecties"
+
+#: ../audiovisualmaterial.py
+msgid "Exhibition"
+msgstr "Tentoonstelling"
+
+#: ../audiovisualmaterial.py
+msgid "Exhibition name"
+msgstr "Tentoonstellingsnaam"
+
+#: ../audiovisualmaterial.py
+msgid "Date"
+msgstr "Datum"
+
+#: ../audiovisualmaterial.py
+msgid "to"
+msgstr "t/m"
+
+#: ../audiovisualmaterial.py
+msgid "Venue"
+msgstr "Locatie"
+
+#: ../audiovisualmaterial.py
+msgid "Venue"
+msgstr "Locatie"
+
+#: ../audiovisualmaterial.py
+msgid "Auction"
+msgstr "Veiling"
+
+#: ../audiovisualmaterial.py
+msgid "Auction name"
+msgstr "Veilingnaam"
+
+#: ../audiovisualmaterial.py
+msgid "Auctioneer"
+msgstr "Veilinghuis"
+
+#: ../audiovisualmaterial.py
+msgid "Collector"
+msgstr "Collectioneur"
+
+#: ../audiovisualmaterial.py
+msgid "Commissair-priseur"
+msgstr "Commissair-priseur"
+
+#: ../audiovisualmaterial.py
+msgid "Auction number"
+msgstr "Veilingnummer"
+
+#: ../audiovisualmaterial.py
+msgid "Collection"
+msgstr "Collectie"
+
+#: ../audiovisualmaterial.py
+msgid "Collection name"
+msgstr "Collectienaam"
+
+#: ../audiovisualmaterial.py
+msgid "Organisation"
+msgstr "Organisatie"
+
+#: ../audiovisualmaterial.py
+msgid "Location"
+msgstr "Locatie"
+
+#
+# Relations
+#
+
+#: ../audiovisualmaterial.py
+msgid "Relations"
+msgstr "Relaties"
+
+#: ../audiovisualmaterial.py
+msgid "Volume"
+msgstr "Deel"
+
+#: ../audiovisualmaterial.py
+msgid "Analytical cataloguing"
+msgstr "Koepelgegevens"
+
+#: ../audiovisualmaterial.py
+msgid "record no."
+msgstr "recordnr."
+
+#: ../audiovisualmaterial.py
+msgid "Part of"
+msgstr "Onderdeel van"
+
+#: ../audiovisualmaterial.py
+msgid "Consists of"
+msgstr "Bestaat uit"
+
+#: ../audiovisualmaterial.py
+msgid "Museum objects"
+msgstr "Museumobjecten"
+
+#: ../audiovisualmaterial.py
+msgid "Object no."
+msgstr "Objectnr"
+
+#: ../audiovisualmaterial.py
+msgid "Object name"
+msgstr "Objectnaam"
+
+#: ../audiovisualmaterial.py
+msgid "Maker"
+msgstr "Vervaardiger"
+
+#
+# Free fields
+#
+
+
+#: ../audiovisualmaterial.py
+msgid "Free fields and numbers"
+msgstr "Vrije velden en nummer"
+
+#: ../audiovisualmaterial.py
+msgid "Free fields"
+msgstr "Vrije velden"
+
+#: ../audiovisualmaterial.py
+msgid "Confidential"
+msgstr "Vertrouwelijk"
+
+#: ../audiovisualmaterial.py
+msgid "Contents"
+msgstr "Inhoud"
+
+#: ../audiovisualmaterial.py
+msgid "Other number"
+msgstr "Andere nummers"
+
+#: ../audiovisualmaterial.py
+msgid "PPN"
+msgstr "PPN"
+
+#
+# Copies and shelf marks
+#
+
+#: ../audiovisualmaterial.py
+msgid "Copies and shelf marks"
+msgstr "Exemplaren en vindplaatsen"
+
+#: ../audiovisualmaterial.py
+msgid "Default shelf mark"
+msgstr "Standaard signatuur"
+
+#: ../audiovisualmaterial.py
+msgid "Copy details"
+msgstr "Exemplaargegevens"
+
+#: ../audiovisualmaterial.py
+msgid "Copy number"
+msgstr "Exemplaarnummer"
+
+#: ../audiovisualmaterial.py
+msgid "Shelf mark"
+msgstr "Plaatscode"
+
+#: ../audiovisualmaterial.py
+msgid "Availability"
+msgstr "Beschikbaarheid"
+
+#: ../audiovisualmaterial.py
+msgid "Loan category"
+msgstr "Uitleencategorie"
+
+#: ../audiovisualmaterial.py
+msgid "Site"
+msgstr "Filiaal"
+
+#: ../audiovisualmaterial.py
+msgid "Location notes"
+msgstr "Bijzonderheden locatie"
+
+#
+# Series
+#
+
+#: ../audiovisualmaterial.py
+msgid "Quantity"
+msgstr "Aantal"
+
+#: ../audiovisualmaterial.py
+msgid "Lead word"
+msgstr "Lidwoord"
+
+#: ../audiovisualmaterial.py
+msgid "Contents"
+msgstr "Omvang"
+
+#: ../audiovisualmaterial.py
+msgid "Physical details"
+msgstr "Fysieke kenmerken"
+
+
+#: ../audiovisualmaterial.py
+msgid "Production"
+msgstr "Productie"
+
+#: ../audiovisualmaterial.py
+msgid "Broadcast"
+msgstr "Uitzending"
+
+#: ../audiovisualmaterial.py
+msgid "Broadcasting company"
+msgstr "Omroep"
+
+#: ../audiovisualmaterial.py
+msgid "Production company"
+msgstr "Productiemaatschappij"
+
+
+#: ../audiovisualmaterial.py
+msgid "Audiovisual"
+msgstr "Audio-visuele materialen"
+
+
+#: ../audiovisualmaterial.py
+msgid "Audio-visual materials"
+msgstr "Audio-visuele materialen"
+
+
+
+
+
+
+
+
