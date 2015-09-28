@@ -546,8 +546,13 @@ msgstr "Functie"
 msgid "label_notes_op"
 msgstr "Opmerkingen"
 
+#: ../audiovisual.py
+msgid "Name"
+msgstr "Naam"
 
 
-
+#: ../book.py
+msgid "Person keyword type"
+msgstr "Soort pers.trefwoord"
 
 

@@ -585,6 +585,12 @@ class AddForm(add.DefaultAddForm):
                     widget.allow_reorder = True
                 alsoProvides(widget, IFormWidget)
 
+        for widget in self.widgets.values():
+            if IDataGridField.providedBy(widget):
+                widget.auto_append = False
+                widget.allow_reorder = True
+                alsoProvides(widget, IFormWidget)
+
 class AddView(add.DefaultAddView):
     form = AddForm
     
@@ -599,6 +605,12 @@ class EditForm(edit.DefaultEditForm):
                 if IDataGridField.providedBy(widget):
                     widget.auto_append = False
                     widget.allow_reorder = True
+                alsoProvides(widget, IFormWidget)
+
+        for widget in self.widgets.values():
+            if IDataGridField.providedBy(widget):
+                widget.auto_append = False
+                widget.allow_reorder = True
                 alsoProvides(widget, IFormWidget)
 
 

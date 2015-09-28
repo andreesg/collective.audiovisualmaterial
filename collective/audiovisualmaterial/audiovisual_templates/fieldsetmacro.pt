@@ -195,7 +195,12 @@
 
       <h2 class="page-header" i18n:translate="">Annotatie</h2>
 
+
+  <div class="form-horizontal gridfield">
+          <tal:widget tal:replace="structure widgets/seriesNotesISBN_notes_bibliographicalNotes/@@ploneform-render-widget"/>
+      </div>
       <div class="form-horizontal gridfield">
+
           <tal:widget tal:replace="structure widgets/seriesNotesISBN_notes_production/@@ploneform-render-widget"/>
       </div>
       <div class="form-horizontal gridfield">
@@ -281,7 +286,7 @@
         </div>
       </div>
 
-      <h2 class="page-header" i18n:translate="">Digital references</h2>
+      <h2 class="page-header header-padding" i18n:translate="">Digital references</h2>
 
       <div class="form-horizontal gridfield">
           <tal:widget tal:replace="structure widgets/abstractAndSubjectTerms_digitalReferences_reference/@@ploneform-render-widget"/>    
