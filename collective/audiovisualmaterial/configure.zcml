@@ -85,5 +85,10 @@
     />
 
   <!-- -*- extra stuff goes here -*- -->
+  <adapter for=".audiovisualmaterial.IAudiovisual"
+    provides=".audiovisualmaterial.INameFromPersonNames"
+    factory=".audiovisualmaterial.NameFromPersonNames"
+    />
+
 
 </configure>

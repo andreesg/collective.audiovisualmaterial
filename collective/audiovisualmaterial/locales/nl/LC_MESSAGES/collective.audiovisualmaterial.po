@@ -531,14 +531,20 @@ msgstr "Productiemaatschappij"
 
 #: ../audiovisualmaterial.py
 msgid "Audiovisual"
-msgstr "Audio-visuele materialen"
+msgstr "Audio-visuele"
 
 
 #: ../audiovisualmaterial.py
 msgid "Audio-visual materials"
-msgstr "Audio-visuele materialen"
+msgstr "Audio-visuele"
 
+#: ../audiovisual.py
+msgid "label_author_role"
+msgstr "Functie"
 
+#: ../audiovisual.py
+msgid "label_notes_op"
+msgstr "Opmerkingen"
 
 
 

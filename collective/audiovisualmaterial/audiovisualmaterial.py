@@ -10,6 +10,7 @@ from zope.interface import alsoProvides
 from zope.schema.vocabulary import SimpleVocabulary
 from zope.schema.fieldproperty import FieldProperty
 from zope.component import getMultiAdapter
+from plone.app.content.interfaces import INameFromTitle
 
 #
 # Plone dependencies
@@ -36,11 +37,12 @@ from .utils.source import ObjPathSourceBinder
 # plone.app.widgets dependencies
 #
 from plone.app.widgets.dx import DatetimeFieldWidget, RelatedItemsFieldWidget
+from plone.app.widgets.dx import AjaxSelectFieldWidget
 
 #
 # DataGridFields dependencies
 #
-from collective.z3cform.datagridfield import DataGridFieldFactory, DictRow
+from collective.z3cform.datagridfield import DataGridFieldFactory, DictRow, IDataGridField
 from collective.z3cform.datagridfield.blockdatagridfield import BlockDataGridFieldFactory
 
 # # # # # # # # # # # # # # # 
@@ -62,9 +64,23 @@ from .utils.views import *
 
 # # # # # # # # # # # # #
 # # # # # # # # # # # # #
-# Book schema           #
+# Audiovisual schema    #
 # # # # # # # # # # # # #
 # # # # # # # # # # # # #
+
+class INameFromPersonNames(INameFromTitle):
+    def title():
+        """Return a processed title"""
+
+class NameFromPersonNames(object):
+    implements(INameFromPersonNames)
+    
+    def __init__(self, context):
+        self.context = context
+
+    @property
+    def title(self):
+        return self.context.titleAuthorImprintCollation_titleAuthor_title[0]['title']
 
 class IAudiovisual(form.Schema):
 
@@ -89,7 +105,7 @@ class IAudiovisual(form.Schema):
                 'titleAuthorImprintCollation_titleAuthor_illustrator',
                 'titleAuthorImprintCollation_titleAuthor_corpAuthor', 'titleAuthorImprintCollation_edition_edition',
                 'titleAuthorImprintCollation_imprint_place', 'titleAuthorImprintCollation_imprint_publisher',
-                'titleAuthorImprintCollation_imprint_year', 'titleAuthorImprintCollation_imprint_placePrinted',
+                'titleAuthorImprintCollation_imprint_year', 'titleAuthorImprintCollation_imprint_placesPrinted',
                 'titleAuthorImprintCollation_imprint_printer', 'titleAuthorImprintCollation_sortYear_sortYear',
                 'titleAuthorImprintCollation_collation_quantity', 'titleAuthorImprintCollation_collation_contents',
                 'titleAuthorImprintCollation_collation_physicalDetails',
@@ -104,7 +120,7 @@ class IAudiovisual(form.Schema):
 
     titleAuthorImprintCollation_titleAuthor_title = ListField(title=_(u'Title'),
         value_type=DictRow(title=_(u'Title'), schema=ITitle),
-        required=False)
+        required=True)
     form.widget(titleAuthorImprintCollation_titleAuthor_title=BlockDataGridFieldFactory)
     dexteritytextindexer.searchable('titleAuthorImprintCollation_titleAuthor_title')
 
@@ -117,19 +133,19 @@ class IAudiovisual(form.Schema):
     titleAuthorImprintCollation_titleAuthor_author = ListField(title=_(u'Author'),
         value_type=DictRow(title=_(u'Author'), schema=IAuthor),
         required=False)
-    form.widget(titleAuthorImprintCollation_titleAuthor_author=DataGridFieldFactory)
+    form.widget(titleAuthorImprintCollation_titleAuthor_author=BlockDataGridFieldFactory)
     dexteritytextindexer.searchable('titleAuthorImprintCollation_titleAuthor_author')
 
     titleAuthorImprintCollation_titleAuthor_illustrator = ListField(title=_(u'Illustrator'),
         value_type=DictRow(title=_(u'Illustrator'), schema=IIllustrator),
         required=False)
-    form.widget(titleAuthorImprintCollation_titleAuthor_illustrator=DataGridFieldFactory)
+    form.widget(titleAuthorImprintCollation_titleAuthor_illustrator=BlockDataGridFieldFactory)
     dexteritytextindexer.searchable('titleAuthorImprintCollation_titleAuthor_illustrator')
 
-    titleAuthorImprintCollation_titleAuthor_corpAuthor = schema.TextLine(
-        title=_(u'Corp.author'),
-        required=False
-    )
+    titleAuthorImprintCollation_titleAuthor_corpAuthor = ListField(title=_(u'Corp.author'),
+        value_type=DictRow(title=_(u'Corp.author'), schema=ICorpAuthor),
+        required=False)
+    form.widget(titleAuthorImprintCollation_titleAuthor_corpAuthor=BlockDataGridFieldFactory)
     dexteritytextindexer.searchable('titleAuthorImprintCollation_titleAuthor_corpAuthor')
 
     # Edition
@@ -158,11 +174,14 @@ class IAudiovisual(form.Schema):
     )
     dexteritytextindexer.searchable('titleAuthorImprintCollation_imprint_year')
 
-    titleAuthorImprintCollation_imprint_placePrinted = ListField(title=_(u'Place printed'),
-        value_type=DictRow(title=_(u'Place printed'), schema=IPlacePrinted),
-        required=False)
-    form.widget(titleAuthorImprintCollation_imprint_placePrinted=BlockDataGridFieldFactory)
-    dexteritytextindexer.searchable('titleAuthorImprintCollation_imprint_placePrinted')
+    titleAuthorImprintCollation_imprint_placesPrinted = schema.List(
+        title=_(u'Place printed'),
+        required=False,
+        value_type=schema.TextLine(),
+        missing_value=[],
+        default=[]
+    )
+    form.widget('titleAuthorImprintCollation_imprint_placesPrinted', AjaxSelectFieldWidget, vocabulary="collective.bibliotheek.placeprinted")
 
     titleAuthorImprintCollation_imprint_printer = ListField(title=_(u'Printer'),
         value_type=DictRow(title=_(u'Printer'), schema=IPrinter),
@@ -171,7 +190,6 @@ class IAudiovisual(form.Schema):
     dexteritytextindexer.searchable('titleAuthorImprintCollation_imprint_printer')
 
     # Sort year
-
     titleAuthorImprintCollation_sortYear_sortYear = schema.TextLine(
         title=_(u'Sort year'),
         required=False
@@ -179,13 +197,11 @@ class IAudiovisual(form.Schema):
     dexteritytextindexer.searchable('titleAuthorImprintCollation_sortYear_sortYear')
 
     # Collation
-
     titleAuthorImprintCollation_collation_quantity = schema.TextLine(
         title=_(u'Quantity'),
         required=False
     )
     dexteritytextindexer.searchable('titleAuthorImprintCollation_collation_quantity')
-
 
     titleAuthorImprintCollation_collation_contents = schema.TextLine(
         title=_(u'Contents'),
@@ -218,10 +234,9 @@ class IAudiovisual(form.Schema):
     
     model.fieldset('series_notes_isbn', label=_(u'Series, notes, ISBN'), 
         fields=['seriesNotesISBN_series_series',
-                'seriesNotesISBN_notes_bibliographicalNotes',
+                'seriesNotesISBN_notes_bibliographicalNotes', 'seriesNotesISBN_ISBN_ISBN',
                 'seriesNotesISBN_notes_production', 'seriesNotesISBN_notes_broadcast',
                 'seriesNotesISBN_notes_broadcastingCompany', 'seriesNotesISBN_notes_productionCompany',
-                'seriesNotesISBN_ISBN_ISBN',
                 'seriesNotesISBN_conference_conference']
     )
 
@@ -276,10 +291,7 @@ class IAudiovisual(form.Schema):
     form.widget(seriesNotesISBN_conference_conference=BlockDataGridFieldFactory)
     dexteritytextindexer.searchable('seriesNotesISBN_conference_conference')
 
-    # # # # # # # # # # # # # # # # # # # # # # # #
-    # Abstract and subject terms fieldset         #
-    # # # # # # # # # # # # # # # # # # # # # # # #
-    
+
     model.fieldset('abstract_subject_terms', label=_(u'Abstract and subject terms'), 
         fields=['abstractAndSubjectTerms_materialType', 'abstractAndSubjectTerms_biblForm',
                 'abstractAndSubjectTerms_language', 'abstractAndSubjectTerms_level',
@@ -290,25 +302,33 @@ class IAudiovisual(form.Schema):
                 'abstractAndSubjectTerms_digitalReferences_reference', 'abstractAndSubjectTerms_abstract_abstract']
     )
 
-    abstractAndSubjectTerms_materialType = ListField(title=_(u'Material type'),
-        value_type=DictRow(title=_(u'Material type'), schema=IMaterialType),
-        required=False)
-    form.widget(abstractAndSubjectTerms_materialType=BlockDataGridFieldFactory)
-    dexteritytextindexer.searchable('abstractAndSubjectTerms_materialType')
+    abstractAndSubjectTerms_materialType = schema.List(
+        title=_(u'Material type'),
+        required=False,
+        value_type=schema.TextLine(),
+        missing_value=[],
+        default=[]
+    )
+    form.widget('abstractAndSubjectTerms_materialType', AjaxSelectFieldWidget, vocabulary="collective.bibliotheek.materialtype")
 
 
-    abstractAndSubjectTerms_biblForm = ListField(title=_(u'Bibl. form'),
-        value_type=DictRow(title=_(u'Bibl. form'), schema=IBiblForm),
-        required=False)
-    form.widget(abstractAndSubjectTerms_biblForm=BlockDataGridFieldFactory)
-    dexteritytextindexer.searchable('abstractAndSubjectTerms_biblForm')
+    abstractAndSubjectTerms_biblForm = schema.List(
+        title=_(u'Bibl. form'),
+        required=False,
+        value_type=schema.TextLine(),
+        missing_value=[],
+        default=[]
+    )
+    form.widget('abstractAndSubjectTerms_biblForm', AjaxSelectFieldWidget, vocabulary="collective.bibliotheek.biblform")
 
-    abstractAndSubjectTerms_language = ListField(title=_(u'Language'),
-        value_type=DictRow(title=_(u'Language'), schema=ILanguage),
-        required=False)
-    form.widget(abstractAndSubjectTerms_language=BlockDataGridFieldFactory)
-    dexteritytextindexer.searchable('abstractAndSubjectTerms_language')
-
+    abstractAndSubjectTerms_language = schema.List(
+        title=_(u'Language'),
+        required=False,
+        value_type=schema.TextLine(),
+        missing_value=[],
+        default=[]
+    )
+    form.widget('abstractAndSubjectTerms_language', AjaxSelectFieldWidget, vocabulary="collective.bibliotheek.language")
 
     abstractAndSubjectTerms_level = schema.TextLine(
         title=_(u'Level'),
@@ -317,17 +337,20 @@ class IAudiovisual(form.Schema):
     dexteritytextindexer.searchable('abstractAndSubjectTerms_level')
 
 
-    abstractAndSubjectTerms_notes = ListField(title=_(u'Notes'),
-        value_type=DictRow(title=_(u'Notes'), schema=INotes),
+    abstractAndSubjectTerms_notes = ListField(title=_(u'label_notes_op'),
+        value_type=DictRow(title=_(u'Notes'), schema=IAbstractNotes),
         required=False)
     form.widget(abstractAndSubjectTerms_notes=BlockDataGridFieldFactory)
     dexteritytextindexer.searchable('abstractAndSubjectTerms_notes')
 
-    abstractAndSubjectTerms_classNumber = ListField(title=_(u'Class number'),
-        value_type=DictRow(title=_(u'Class number'), schema=IClassNumber),
-        required=False)
-    form.widget(abstractAndSubjectTerms_classNumber=BlockDataGridFieldFactory)
-    dexteritytextindexer.searchable('abstractAndSubjectTerms_classNumber')
+    abstractAndSubjectTerms_classNumber = schema.List(
+        title=_(u'Class number'),
+        required=False,
+        value_type=schema.TextLine(),
+        missing_value=[],
+        default=[]
+    )
+    form.widget('abstractAndSubjectTerms_classNumber', AjaxSelectFieldWidget, vocabulary="collective.bibliotheek.classnumber")
 
     abstractAndSubjectTerms_subjectTerm = ListField(title=_(u'Subject term'),
         value_type=DictRow(title=_(u'Subject term'), schema=ISubjectTerm),
@@ -338,20 +361,27 @@ class IAudiovisual(form.Schema):
     abstractAndSubjectTerms_personKeywordType = ListField(title=_(u'Person keyword type'),
         value_type=DictRow(title=_(u'Person keyword type'), schema=IPersonKeywordType),
         required=False)
-    form.widget(abstractAndSubjectTerms_personKeywordType=DataGridFieldFactory)
+    form.widget(abstractAndSubjectTerms_personKeywordType=BlockDataGridFieldFactory)
     dexteritytextindexer.searchable('abstractAndSubjectTerms_personKeywordType')
 
-    abstractAndSubjectTerms_geographicalKeyword = ListField(title=_(u'Geographical keyword'),
-        value_type=DictRow(title=_(u'Geographical keyword'), schema=IGeographicalKeyword),
-        required=False)
-    form.widget(abstractAndSubjectTerms_geographicalKeyword=BlockDataGridFieldFactory)
-    dexteritytextindexer.searchable('abstractAndSubjectTerms_geographicalKeyword')
+    abstractAndSubjectTerms_geographicalKeyword = schema.List(
+        title=_(u'Geographical keyword'),
+        required=False,
+        value_type=schema.TextLine(),
+        missing_value=[],
+        default=[]
+    )
+    form.widget('abstractAndSubjectTerms_geographicalKeyword', AjaxSelectFieldWidget, vocabulary="collective.bibliotheek.geokeyword")
 
-    abstractAndSubjectTerms_period = ListField(title=_(u'Period'),
-        value_type=DictRow(title=_(u'Period'), schema=IPeriod),
-        required=False)
-    form.widget(abstractAndSubjectTerms_period=BlockDataGridFieldFactory)
-    dexteritytextindexer.searchable('abstractAndSubjectTerms_period')
+    abstractAndSubjectTerms_period = schema.List(
+        title=_(u'Period'),
+        required=False,
+        value_type=schema.TextLine(),
+        missing_value=[],
+        default=[]
+    )
+    form.widget('abstractAndSubjectTerms_period', AjaxSelectFieldWidget, vocabulary="collective.object.periods")
+
 
     abstractAndSubjectTerms_startDate = schema.TextLine(
         title=_(u'Start date'),
@@ -380,6 +410,7 @@ class IAudiovisual(form.Schema):
     form.widget(abstractAndSubjectTerms_abstract_abstract=BlockDataGridFieldFactory)
     dexteritytextindexer.searchable('abstractAndSubjectTerms_abstract_abstract')
 
+
     # # # # # # # # # #
     # Reproductions   #
     # # # # # # # # # #
@@ -402,6 +433,16 @@ class IAudiovisual(form.Schema):
         fields=['exhibitionsAuctionsCollections_exhibition', 'exhibitionsAuctionsCollections_auction',
                 'exhibitionsAuctionsCollections_collection']
     )
+
+    """exhibitionsAuctionsCollections_relatedExhibitions = RelationList(
+        title=_(u'Exhibitions'),
+        default=[],
+        value_type=RelationChoice(
+            title=u"Related",
+            source=ObjPathSourceBinder()
+        ),
+        required=False
+    )"""
 
     # Exhibition
     exhibitionsAuctionsCollections_exhibition = ListField(title=_(u'Exhibition'),
@@ -430,9 +471,8 @@ class IAudiovisual(form.Schema):
     # # # # # # # # # # # # # # # # # # # # #
 
     model.fieldset('relations', label=_(u'Relations'), 
-        fields=['relations_volume', 'relations_analyticalCataloguing_recordNo',
-                'relations_analyticalCataloguing_volume', 'relations_analyticalCataloguing_title', 'relations_analyticalCataloguing_partOf',
-                'relations_analyticalCataloguing_consistsOf', 'relations_museumObjects']
+        fields=['relations_volume', 'relations_analyticalCataloguing_partOf',
+                'relations_analyticalCataloguing_consistsOf', 'relations_museumObjects', 'relations_relatedMuseumObjects']
     )
 
     relations_volume = schema.TextLine(
@@ -440,24 +480,6 @@ class IAudiovisual(form.Schema):
         required=False
     )
     dexteritytextindexer.searchable('relations_volume')
-
-    relations_analyticalCataloguing_recordNo = schema.TextLine(
-        title=_(u'record no.'),
-        required=False
-    )
-    dexteritytextindexer.searchable('relations_analyticalCataloguing_recordNo')
-
-    relations_analyticalCataloguing_volume = schema.TextLine(
-        title=_(u'Volume'),
-        required=False
-    )
-    dexteritytextindexer.searchable('relations_analyticalCataloguing_volume')
-
-    relations_analyticalCataloguing_title = schema.TextLine(
-        title=_(u'Title'),
-        required=False
-    )
-    dexteritytextindexer.searchable('relations_analyticalCataloguing_title')
 
     # Analytical cataloguing
     relations_analyticalCataloguing_partOf = ListField(title=_(u'Part of'),
@@ -478,6 +500,16 @@ class IAudiovisual(form.Schema):
         required=False)
     form.widget(relations_museumObjects=DataGridFieldFactory)
     dexteritytextindexer.searchable('relations_museumObjects')
+
+    relations_relatedMuseumObjects = RelationList(
+        title=_(u'Museum objects'),
+        default=[],
+        value_type=RelationChoice(
+            title=u"Related",
+            source=ObjPathSourceBinder()
+        ),
+        required=False
+    )
 
     # # # # # # # # # # # # # # # # # # # # #
     # Free fields and numbers               #
@@ -528,23 +560,19 @@ class IAudiovisual(form.Schema):
     form.widget(copiesAndShelfMarks_copyDetails=BlockDataGridFieldFactory)
     dexteritytextindexer.searchable('copiesAndShelfMarks_copyDetails')
 
-
-
-
-
     
 
 # # # # # # # # # # # # # #
-# Book declaration        #
+# Audio visual declaration#
 # # # # # # # # # # # # # #
 
 class Audiovisual(Container):
     grok.implements(IAudiovisual)
     pass
 
-# # # # # # # # # # # # # #
-# Book add/edit views   # 
-# # # # # # # # # # # # # #
+# # # # # # # # # # # # # # # # #
+# Audiovisual add/edit views    # 
+# # # # # # # # # # # # # # # # #
 
 class AddForm(add.DefaultAddForm):
     template = ViewPageTemplateFile('audiovisual_templates/add.pt')
@@ -552,10 +580,7 @@ class AddForm(add.DefaultAddForm):
         super(AddForm, self).update()
         for group in self.groups:
             for widget in group.widgets.values():
-                if widget.__name__ in ['titleAuthorImprintCollation_title', 'titleAuthorImprintCollation_titleAuthor_author',
-                                        'titleAuthorImprintCollation_titleAuthor_illustrator', 'titleAuthorImprintCollation_imprint_place',
-                                        'titleAuthorImprintCollation_imprint_publisher', 'titleAuthorImprintCollation_imprint_placePrinted',
-                                        'titleAuthorImprintCollation_collation_accompanyingMaterial']:
+                if IDataGridField.providedBy(widget):
                     widget.auto_append = False
                     widget.allow_reorder = True
                 alsoProvides(widget, IFormWidget)
@@ -571,10 +596,7 @@ class EditForm(edit.DefaultEditForm):
         super(EditForm, self).update()
         for group in self.groups:
             for widget in group.widgets.values():
-                if widget.__name__ in ['titleAuthorImprintCollation_title', 'titleAuthorImprintCollation_titleAuthor_author',
-                                        'titleAuthorImprintCollation_titleAuthor_illustrator', 'titleAuthorImprintCollation_imprint_place',
-                                        'titleAuthorImprintCollation_imprint_publisher', 'titleAuthorImprintCollation_imprint_placePrinted',
-                                        'titleAuthorImprintCollation_collation_accompanyingMaterial']:
+                if IDataGridField.providedBy(widget):
                     widget.auto_append = False
                     widget.allow_reorder = True
                 alsoProvides(widget, IFormWidget)
