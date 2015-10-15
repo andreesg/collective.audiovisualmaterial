@@ -101,6 +101,7 @@
     <div class="row no-padding">
 
         <h2 class="page-header" i18n:translate="">Title and author</h2>
+        <tal:widget tal:replace="structure view/widgets/priref/@@ploneform-render-widget"/>
 
         <div class="form-horizontal">
           <tal:widget tal:replace="structure widgets/titleAuthorImprintCollation_titleAuthor_leadWord/@@ploneform-render-widget"/>

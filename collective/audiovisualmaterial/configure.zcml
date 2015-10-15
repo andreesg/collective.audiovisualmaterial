@@ -34,11 +34,13 @@
       />
     
   <browser:page
-        name="view"
+        name="contents_view"
         for="collective.audiovisualmaterial.audiovisualmaterial.IAudiovisual"
         class="collective.audiovisualmaterial.audiovisualmaterial.AudiovisualView"
         template="audiovisual_templates/view.pt"
         permission="zope2.View"
+        title="View Content"
+        menu="plone_displayviews"
         />
 
 

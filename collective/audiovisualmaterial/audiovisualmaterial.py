@@ -31,8 +31,6 @@ from z3c.relationfield.schema import RelationChoice
 from z3c.relationfield.schema import RelationList
 #from plone.formwidget.contenttree import ObjPathSourceBinder
 
-from .utils.source import ObjPathSourceBinder
-
 #
 # plone.app.widgets dependencies
 #
@@ -53,6 +51,11 @@ from collective import dexteritytextindexer
 from plone.dexterity.browser.view import DefaultView
 from plone.dexterity.content import Container
 from plone.dexterity.browser import add, edit
+
+
+from collective.object.utils.widgets import SimpleRelatedItemsFieldWidget, AjaxSingleSelectFieldWidget
+from collective.object.utils.source import ObjPathSourceBinder
+from plone.directives import dexterity, form
 
 # # # # # # # # # # # # # # # # # #
 # !Bibliotheek specific imports!   #
@@ -433,16 +436,6 @@ class IAudiovisual(form.Schema):
         fields=['exhibitionsAuctionsCollections_exhibition', 'exhibitionsAuctionsCollections_auction',
                 'exhibitionsAuctionsCollections_collection']
     )
-
-    """exhibitionsAuctionsCollections_relatedExhibitions = RelationList(
-        title=_(u'Exhibitions'),
-        default=[],
-        value_type=RelationChoice(
-            title=u"Related",
-            source=ObjPathSourceBinder()
-        ),
-        required=False
-    )"""
 
     # Exhibition
     exhibitionsAuctionsCollections_exhibition = ListField(title=_(u'Exhibition'),
