@@ -53,7 +53,7 @@ from plone.dexterity.content import Container
 from plone.dexterity.browser import add, edit
 
 
-from collective.object.utils.widgets import SimpleRelatedItemsFieldWidget, AjaxSingleSelectFieldWidget
+from collective.object.utils.widgets import SimpleRelatedItemsFieldWidget, AjaxSingleSelectFieldWidget, ExtendedRelatedItemsWidget
 from collective.object.utils.source import ObjPathSourceBinder
 from plone.directives import dexterity, form
 
@@ -358,7 +358,7 @@ class IAudiovisual(form.Schema):
     abstractAndSubjectTerms_subjectTerm = ListField(title=_(u'Subject term'),
         value_type=DictRow(title=_(u'Subject term'), schema=ISubjectTerm),
         required=False)
-    form.widget(abstractAndSubjectTerms_subjectTerm=DataGridFieldFactory)
+    form.widget(abstractAndSubjectTerms_subjectTerm=BlockDataGridFieldFactory)
     dexteritytextindexer.searchable('abstractAndSubjectTerms_subjectTerm')
 
     abstractAndSubjectTerms_personKeywordType = ListField(title=_(u'Person keyword type'),
@@ -465,7 +465,7 @@ class IAudiovisual(form.Schema):
 
     model.fieldset('relations', label=_(u'Relations'), 
         fields=['relations_volume', 'relations_analyticalCataloguing_partOf',
-                'relations_analyticalCataloguing_consistsOf', 'relations_museumObjects', 'relations_relatedMuseumObjects']
+                'relations_analyticalCataloguing_consistsOf', 'relations_museumObjects', 'relations_relatedMuseumObjects', 'relations_museumobjects']
     )
 
     relations_volume = schema.TextLine(
@@ -503,6 +503,18 @@ class IAudiovisual(form.Schema):
         ),
         required=False
     )
+
+    relations_museumobjects = RelationList(
+        title=_(u'Object no.'),
+        default=[],
+        missing_value=[],
+        value_type=RelationChoice(
+            title=u"Related",
+            source=ObjPathSourceBinder(portal_type="Object")
+        ),
+        required=False
+    )
+    form.widget('relations_museumobjects', ExtendedRelatedItemsWidget, vocabulary='collective.object.relateditems')
 
     # # # # # # # # # # # # # # # # # # # # #
     # Free fields and numbers               #
