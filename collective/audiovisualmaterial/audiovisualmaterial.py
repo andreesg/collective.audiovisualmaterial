@@ -53,7 +53,7 @@ from plone.dexterity.content import Container
 from plone.dexterity.browser import add, edit
 
 
-from collective.object.utils.widgets import SimpleRelatedItemsFieldWidget, AjaxSingleSelectFieldWidget, ExtendedRelatedItemsWidget
+from collective.object.utils.widgets import SimpleRelatedItemsFieldWidget, AjaxSingleSelectFieldWidget, ExtendedRelatedItemsWidget, ExtendedRelatedItemsFieldWidget
 from collective.object.utils.source import ObjPathSourceBinder
 from plone.directives import dexterity, form
 
@@ -106,10 +106,10 @@ class IAudiovisual(form.Schema):
         fields=['titleAuthorImprintCollation_titleAuthor_leadWord', 'titleAuthorImprintCollation_titleAuthor_title',
                 'titleAuthorImprintCollation_titleAuthor_statementOfRespsib', 'titleAuthorImprintCollation_titleAuthor_author',
                 'titleAuthorImprintCollation_titleAuthor_illustrator',
-                'titleAuthorImprintCollation_titleAuthor_corpAuthor', 'titleAuthorImprintCollation_edition_edition',
-                'titleAuthorImprintCollation_imprint_place', 'titleAuthorImprintCollation_imprint_publisher',
+                'titleAuthorImprintCollation_titleAuthor_corpAuthors', 'titleAuthorImprintCollation_edition_edition',
+                'titleAuthorImprintCollation_imprint_place', 'titleAuthorImprintCollation_imprint_publishers',
                 'titleAuthorImprintCollation_imprint_year', 'titleAuthorImprintCollation_imprint_placesPrinted',
-                'titleAuthorImprintCollation_imprint_printer', 'titleAuthorImprintCollation_sortYear_sortYear',
+                'titleAuthorImprintCollation_imprint_printers', 'titleAuthorImprintCollation_sortYear_sortYear',
                 'titleAuthorImprintCollation_collation_quantity', 'titleAuthorImprintCollation_collation_contents',
                 'titleAuthorImprintCollation_collation_physicalDetails',
                 'titleAuthorImprintCollation_collation_dimensions', 'titleAuthorImprintCollation_collation_accompanyingMaterial']
@@ -145,11 +145,18 @@ class IAudiovisual(form.Schema):
     form.widget(titleAuthorImprintCollation_titleAuthor_illustrator=BlockDataGridFieldFactory)
     dexteritytextindexer.searchable('titleAuthorImprintCollation_titleAuthor_illustrator')
 
-    titleAuthorImprintCollation_titleAuthor_corpAuthor = ListField(title=_(u'Corp.author'),
-        value_type=DictRow(title=_(u'Corp.author'), schema=ICorpAuthor),
-        required=False)
-    form.widget(titleAuthorImprintCollation_titleAuthor_corpAuthor=BlockDataGridFieldFactory)
-    dexteritytextindexer.searchable('titleAuthorImprintCollation_titleAuthor_corpAuthor')
+    titleAuthorImprintCollation_titleAuthor_corpAuthors =  RelationList(
+        title=_(u'Corp.author'),
+        default=[],
+        missing_value=[],
+        value_type=RelationChoice(
+            title=u"Related",
+            source=ObjPathSourceBinder(portal_type='PersonOrInstitution')
+        ),
+        required=False
+    )
+    form.widget('titleAuthorImprintCollation_titleAuthor_corpAuthors', ExtendedRelatedItemsFieldWidget, vocabulary='collective.object.relateditems')
+
 
     # Edition
     titleAuthorImprintCollation_edition_edition = schema.TextLine(
@@ -165,11 +172,17 @@ class IAudiovisual(form.Schema):
     form.widget(titleAuthorImprintCollation_imprint_place=BlockDataGridFieldFactory)
     dexteritytextindexer.searchable('titleAuthorImprintCollation_imprint_place')
 
-    titleAuthorImprintCollation_imprint_publisher = ListField(title=_(u'Publisher'),
-        value_type=DictRow(title=_(u'Publisher'), schema=IPublisher),
-        required=False)
-    form.widget(titleAuthorImprintCollation_imprint_publisher=BlockDataGridFieldFactory)
-    dexteritytextindexer.searchable('titleAuthorImprintCollation_imprint_publisher')
+    titleAuthorImprintCollation_imprint_publishers = RelationList(
+        title=_(u'Publisher'),
+        default=[],
+        missing_value=[],
+        value_type=RelationChoice(
+            title=u"Related",
+            source=ObjPathSourceBinder(portal_type='PersonOrInstitution')
+        ),
+        required=False
+    )
+    form.widget('titleAuthorImprintCollation_imprint_publishers', ExtendedRelatedItemsFieldWidget, vocabulary='collective.object.relateditems')
 
     titleAuthorImprintCollation_imprint_year = schema.TextLine(
         title=_(u'Year'),
@@ -186,11 +199,17 @@ class IAudiovisual(form.Schema):
     )
     form.widget('titleAuthorImprintCollation_imprint_placesPrinted', AjaxSelectFieldWidget, vocabulary="collective.bibliotheek.placeprinted")
 
-    titleAuthorImprintCollation_imprint_printer = ListField(title=_(u'Printer'),
-        value_type=DictRow(title=_(u'Printer'), schema=IPrinter),
-        required=False)
-    form.widget(titleAuthorImprintCollation_imprint_printer=BlockDataGridFieldFactory)
-    dexteritytextindexer.searchable('titleAuthorImprintCollation_imprint_printer')
+    titleAuthorImprintCollation_imprint_printers = RelationList(
+        title=_(u'Printer'),
+        default=[],
+        missing_value=[],
+        value_type=RelationChoice(
+            title=u"Related",
+            source=ObjPathSourceBinder(portal_type='PersonOrInstitution')
+        ),
+        required=False
+    )
+    form.widget('titleAuthorImprintCollation_imprint_printers', ExtendedRelatedItemsFieldWidget, vocabulary='collective.object.relateditems')
 
     # Sort year
     titleAuthorImprintCollation_sortYear_sortYear = schema.TextLine(
@@ -239,7 +258,7 @@ class IAudiovisual(form.Schema):
         fields=['seriesNotesISBN_series_series',
                 'seriesNotesISBN_notes_bibliographicalNotes', 'seriesNotesISBN_ISBN_ISBN',
                 'seriesNotesISBN_notes_production', 'seriesNotesISBN_notes_broadcast',
-                'seriesNotesISBN_notes_broadcastingCompany', 'seriesNotesISBN_notes_productionCompany',
+                'seriesNotesISBN_notes_broadcastingcompany', 'seriesNotesISBN_notes_productioncompany',
                 'seriesNotesISBN_conference_conference']
     )
 
@@ -268,17 +287,29 @@ class IAudiovisual(form.Schema):
     form.widget(seriesNotesISBN_notes_broadcast=BlockDataGridFieldFactory)
     dexteritytextindexer.searchable('seriesNotesISBN_notes_broadcast')
 
-    seriesNotesISBN_notes_broadcastingCompany = ListField(title=_(u'Broadcasting company'),
-        value_type=DictRow(title=_(u'Broadcasting company'), schema=IBroadcastingCompany),
-        required=False)
-    form.widget(seriesNotesISBN_notes_broadcastingCompany=BlockDataGridFieldFactory)
-    dexteritytextindexer.searchable('seriesNotesISBN_notes_broadcastingCompany')
+    seriesNotesISBN_notes_broadcastingcompany = RelationList(
+        title=_(u'Broadcasting company'),
+        default=[],
+        missing_value=[],
+        value_type=RelationChoice(
+            title=u"Related",
+            source=ObjPathSourceBinder(portal_type='PersonOrInstitution')
+        ),
+        required=False
+    )
+    form.widget('seriesNotesISBN_notes_broadcastingcompany', ExtendedRelatedItemsFieldWidget, vocabulary='collective.object.relateditems')
 
-    seriesNotesISBN_notes_productionCompany = ListField(title=_(u'Production company'),
-        value_type=DictRow(title=_(u'Production company'), schema=IProductionCompany),
-        required=False)
-    form.widget(seriesNotesISBN_notes_productionCompany=BlockDataGridFieldFactory)
-    dexteritytextindexer.searchable('seriesNotesISBN_notes_productionCompany')
+    seriesNotesISBN_notes_productioncompany = RelationList(
+        title=_(u'Production company'),
+        default=[],
+        missing_value=[],
+        value_type=RelationChoice(
+            title=u"Related",
+            source=ObjPathSourceBinder(portal_type='PersonOrInstitution')
+        ),
+        required=False
+    )
+    form.widget('seriesNotesISBN_notes_productioncompany', ExtendedRelatedItemsFieldWidget, vocabulary='collective.object.relateditems')
 
     # ISBN
     seriesNotesISBN_ISBN_ISBN = ListField(title=_(u'ISBN'),
@@ -464,8 +495,8 @@ class IAudiovisual(form.Schema):
     # # # # # # # # # # # # # # # # # # # # #
 
     model.fieldset('relations', label=_(u'Relations'), 
-        fields=['relations_volume', 'relations_analyticalCataloguing_partOf',
-                'relations_analyticalCataloguing_consistsOf', 'relations_museumObjects', 'relations_relatedMuseumObjects', 'relations_museumobjects']
+        fields=['relations_volume', 'relations_analyticalCataloguing_partsOf',
+                'relations_analyticalCataloguing_consistsof', 'relations_museumObjects', 'relations_relatedMuseumObjects', 'relations_museumobjects']
     )
 
     relations_volume = schema.TextLine(
@@ -475,17 +506,29 @@ class IAudiovisual(form.Schema):
     dexteritytextindexer.searchable('relations_volume')
 
     # Analytical cataloguing
-    relations_analyticalCataloguing_partOf = ListField(title=_(u'Part of'),
-        value_type=DictRow(title=_(u'Part of'), schema=IPartOf),
-        required=False)
-    form.widget(relations_analyticalCataloguing_partOf=BlockDataGridFieldFactory)
-    dexteritytextindexer.searchable('relations_analyticalCataloguing_partOf')
+    relations_analyticalCataloguing_partsOf = RelationList(
+        title=_(u'Part of'),
+        default=[],
+        missing_value=[],
+        value_type=RelationChoice(
+            title=u"Related",
+            source=ObjPathSourceBinder()
+        ),
+        required=False
+    )
+    form.widget('relations_analyticalCataloguing_partsOf', ExtendedRelatedItemsFieldWidget, vocabulary='collective.object.relateditems')
 
-    relations_analyticalCataloguing_consistsOf = ListField(title=_(u'Consists of'),
-        value_type=DictRow(title=_(u'Consists of'), schema=IConsistsOf),
-        required=False)
-    form.widget(relations_analyticalCataloguing_consistsOf=BlockDataGridFieldFactory)
-    dexteritytextindexer.searchable('relations_analyticalCataloguing_consistsOf')
+    relations_analyticalCataloguing_consistsof = RelationList(
+        title=_(u'Consists of'),
+        default=[],
+        missing_value=[],
+        value_type=RelationChoice(
+            title=u"Related",
+            source=ObjPathSourceBinder()
+        ),
+        required=False
+    )
+    form.widget('relations_analyticalCataloguing_consistsof', ExtendedRelatedItemsFieldWidget, vocabulary='collective.object.relateditems')
 
     # Museum objects
     relations_museumObjects = ListField(title=_(u'Museum objects'),
