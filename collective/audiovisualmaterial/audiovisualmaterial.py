@@ -496,7 +496,7 @@ class IAudiovisual(form.Schema):
 
     model.fieldset('relations', label=_(u'Relations'), 
         fields=['relations_volume', 'relations_analyticalCataloguing_partsOf',
-                'relations_analyticalCataloguing_consistsof', 'relations_museumObjects', 'relations_relatedMuseumObjects', 'relations_museumobjects']
+                'relations_analyticalCataloguing_consistsof','relations_museumobjects']
     )
 
     relations_volume = schema.TextLine(
@@ -531,22 +531,6 @@ class IAudiovisual(form.Schema):
     form.widget('relations_analyticalCataloguing_consistsof', ExtendedRelatedItemsFieldWidget, vocabulary='collective.object.relateditems')
 
     # Museum objects
-    relations_museumObjects = ListField(title=_(u'Museum objects'),
-        value_type=DictRow(title=_(u'Museum objects'), schema=IMuseumObjects),
-        required=False)
-    form.widget(relations_museumObjects=DataGridFieldFactory)
-    dexteritytextindexer.searchable('relations_museumObjects')
-
-    relations_relatedMuseumObjects = RelationList(
-        title=_(u'Museum objects'),
-        default=[],
-        value_type=RelationChoice(
-            title=u"Related",
-            source=ObjPathSourceBinder()
-        ),
-        required=False
-    )
-
     relations_museumobjects = RelationList(
         title=_(u'Object no.'),
         default=[],
@@ -557,7 +541,7 @@ class IAudiovisual(form.Schema):
         ),
         required=False
     )
-    form.widget('relations_museumobjects', ExtendedRelatedItemsWidget, vocabulary='collective.object.relateditems')
+    form.widget('relations_museumobjects', ExtendedRelatedItemsFieldWidget, vocabulary='collective.object.relateditems')
 
     # # # # # # # # # # # # # # # # # # # # #
     # Free fields and numbers               #
