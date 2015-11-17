@@ -89,6 +89,7 @@
 
   <!-- -*- extra stuff goes here -*- -->
   <adapter name="library_author" factory=".utils.indexers.library_author" />
+  <adapter name="library_year" factory=".utils.indexers.library_year" />
   
   <adapter name="abstractAndSubjectTerms_biblForm" factory=".utils.indexers.abstractAndSubjectTerms_biblForm" />
   <adapter name="abstractAndSubjectTerms_materialType" factory=".utils.indexers.abstractAndSubjectTerms_materialType" />
@@ -99,7 +100,7 @@
   <adapter name="abstractAndSubjectTerms_subjectTerm_properName" factory=".utils.indexers.abstractAndSubjectTerms_subjectTerm_properName" />
   <adapter name="copiesAndShelfMarks_copyDetails_loan" factory=".utils.indexers.copiesAndShelfMarks_copyDetails_loan" />
   <adapter name="copiesAndShelfMarks_copyDetails_site" factory=".utils.indexers.copiesAndShelfMarks_copyDetails_site" />
-  
+
   <adapter for=".audiovisualmaterial.IAudiovisual"
     provides=".audiovisualmaterial.INameFromPersonNames"
     factory=".audiovisualmaterial.NameFromPersonNames"

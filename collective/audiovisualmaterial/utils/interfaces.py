@@ -257,7 +257,7 @@ class IPersonKeywordType(Interface):
         missing_value=[],
         default=[]
     )
-    form.widget('role', AjaxSingleSelectFieldWidget, vocabulary="collective.bibliotheek.site")
+    form.widget('role', AjaxSingleSelectFieldWidget, vocabulary="collective.bibliotheek.role")
 
 class IGeographicalKeyword(Interface):
     term = schema.TextLine(title=_(u'Geographical keyword'), required=False)

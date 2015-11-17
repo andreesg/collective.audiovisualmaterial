@@ -5,6 +5,16 @@ from ..audiovisualmaterial import IAudiovisual
 from z3c.relationfield.interfaces import IRelationValue
 
 @indexer(IAudiovisual)
+def library_year(object, **kw):
+    try:
+        if hasattr(object, 'titleAuthorImprintCollation_imprint_year'):
+            return object.titleAuthorImprintCollation_imprint_year
+        else:
+            return ""
+    except:
+        return ""
+
+@indexer(IAudiovisual)
 def library_author(object, **kw):
     try:
         if hasattr(object, 'titleAuthorImprintCollation_titleAuthor_author'):
