@@ -501,7 +501,7 @@ class IAudiovisual(form.Schema):
 
     model.fieldset('relations', label=_(u'Relations'), 
         fields=['relations_volume', 'relations_analyticalCataloguing_partsOf',
-                'relations_analyticalCataloguing_consistsof','relations_museumobjects']
+                'relations_analyticalCataloguing_consistsof']
     )
 
     relations_volume = schema.TextLine(
@@ -536,7 +536,7 @@ class IAudiovisual(form.Schema):
     form.widget('relations_analyticalCataloguing_consistsof', ExtendedRelatedItemsFieldWidget, vocabulary='collective.object.relateditems')
 
     # Museum objects
-    relations_museumobjects = RelationList(
+    """relations_museumobjects = RelationList(
         title=_(u'Object no.'),
         default=[],
         missing_value=[],
@@ -546,7 +546,7 @@ class IAudiovisual(form.Schema):
         ),
         required=False
     )
-    form.widget('relations_museumobjects', ExtendedRelatedItemsFieldWidget, vocabulary='collective.object.relateditems')
+    form.widget('relations_museumobjects', ExtendedRelatedItemsFieldWidget, vocabulary='collective.object.relateditems')"""
 
     # # # # # # # # # # # # # # # # # # # # #
     # Free fields and numbers               #
