@@ -15,6 +15,16 @@ def library_year(object, **kw):
         return ""
 
 @indexer(IAudiovisual)
+def audiovisual_priref(object, **kw):
+    try:
+        if hasattr(object, 'priref'):
+            return object.priref
+        else:
+            return ""
+    except:
+        return ""
+
+@indexer(IAudiovisual)
 def library_author(object, **kw):
     try:
         if hasattr(object, 'titleAuthorImprintCollation_titleAuthor_author'):

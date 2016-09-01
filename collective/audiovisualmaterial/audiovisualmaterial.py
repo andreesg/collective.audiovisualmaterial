@@ -34,8 +34,8 @@ from z3c.relationfield.schema import RelationList
 #
 # plone.app.widgets dependencies
 #
-from plone.app.widgets.dx import DatetimeFieldWidget, RelatedItemsFieldWidget
-from plone.app.widgets.dx import AjaxSelectFieldWidget
+from plone.app.z3cform.widget import DatetimeFieldWidget, RelatedItemsFieldWidget
+from plone.app.z3cform.widget import AjaxSelectFieldWidget
 
 #
 # DataGridFields dependencies
@@ -156,7 +156,7 @@ class IAudiovisual(form.Schema):
         missing_value=[],
         value_type=RelationChoice(
             title=u"Related",
-            source=ObjPathSourceBinder(portal_type='PersonOrInstitution')
+            vocabulary='collective.object.relateditems'
         ),
         required=False
     )
@@ -183,7 +183,7 @@ class IAudiovisual(form.Schema):
         missing_value=[],
         value_type=RelationChoice(
             title=u"Related",
-            source=ObjPathSourceBinder(portal_type='PersonOrInstitution')
+            vocabulary='collective.object.relateditems'
         ),
         required=False
     )
@@ -210,7 +210,7 @@ class IAudiovisual(form.Schema):
         missing_value=[],
         value_type=RelationChoice(
             title=u"Related",
-            source=ObjPathSourceBinder(portal_type='PersonOrInstitution')
+            vocabulary='collective.object.relateditems'
         ),
         required=False
     )
@@ -261,9 +261,10 @@ class IAudiovisual(form.Schema):
     
     model.fieldset('series_notes_isbn', label=_(u'Series, notes, ISBN'), 
         fields=['seriesNotesISBN_series_series',
-                'seriesNotesISBN_notes_bibliographicalNotes', 'seriesNotesISBN_ISBN_ISBN',
+                'seriesNotesISBN_notes_bibliographicalNotes',
                 'seriesNotesISBN_notes_production', 'seriesNotesISBN_notes_broadcast',
                 'seriesNotesISBN_notes_broadcastingcompany', 'seriesNotesISBN_notes_productioncompany',
+                'seriesNotesISBN_ISBN_ISBN',
                 'seriesNotesISBN_conference_conference']
     )
 
@@ -298,7 +299,7 @@ class IAudiovisual(form.Schema):
         missing_value=[],
         value_type=RelationChoice(
             title=u"Related",
-            source=ObjPathSourceBinder(portal_type='PersonOrInstitution')
+            vocabulary='collective.object.relateditems'
         ),
         required=False
     )
@@ -310,7 +311,7 @@ class IAudiovisual(form.Schema):
         missing_value=[],
         value_type=RelationChoice(
             title=u"Related",
-            source=ObjPathSourceBinder(portal_type='PersonOrInstitution')
+            vocabulary='collective.object.relateditems'
         ),
         required=False
     )
@@ -376,7 +377,7 @@ class IAudiovisual(form.Schema):
     dexteritytextindexer.searchable('abstractAndSubjectTerms_level')
 
 
-    abstractAndSubjectTerms_notes = ListField(title=_(u'label_notes_op'),
+    abstractAndSubjectTerms_notes = ListField(title=_(u'Notes'),
         value_type=DictRow(title=_(u'Notes'), schema=IAbstractNotes),
         required=False)
     form.widget(abstractAndSubjectTerms_notes=BlockDataGridFieldFactory)
@@ -517,7 +518,7 @@ class IAudiovisual(form.Schema):
         missing_value=[],
         value_type=RelationChoice(
             title=u"Related",
-            source=ObjPathSourceBinder()
+            vocabulary='collective.object.relateditems'
         ),
         required=False
     )
@@ -529,7 +530,7 @@ class IAudiovisual(form.Schema):
         missing_value=[],
         value_type=RelationChoice(
             title=u"Related",
-            source=ObjPathSourceBinder()
+            vocabulary='collective.object.relateditems'
         ),
         required=False
     )
@@ -542,7 +543,7 @@ class IAudiovisual(form.Schema):
         missing_value=[],
         value_type=RelationChoice(
             title=u"Related",
-            source=ObjPathSourceBinder(portal_type="Object")
+            vocabulary='collective.object.relateditems'
         ),
         required=False
     )
@@ -598,22 +599,27 @@ class IAudiovisual(form.Schema):
     dexteritytextindexer.searchable('copiesAndShelfMarks_copyDetails')
 
     
-
-# # # # # # # # # # # # # #
-# Audio visual declaration#
-# # # # # # # # # # # # # #
+# # # # # # # # # # # # # # #
+# Audio visual declaration  #
+# # # # # # # # # # # # # # #
 
 class Audiovisual(Container):
     grok.implements(IAudiovisual)
 
     def Title(self):
         ''' Return a title from title author '''
-        return self.titleAuthorImprintCollation_titleAuthor_title[0]['title']
-
+        try:
+            return self.titleAuthorImprintCollation_titleAuthor_title[0]['title']
+        except:
+            return ""
+    
     @property
     def title(self):
         ''' return title '''
-        return self.titleAuthorImprintCollation_titleAuthor_title[0]['title']
+        try:
+            return self.titleAuthorImprintCollation_titleAuthor_title[0]['title']
+        except:
+            return ""
 
     @title.setter
     def title(self, value):

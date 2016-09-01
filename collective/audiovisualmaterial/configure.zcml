@@ -70,13 +70,13 @@
   </class>
 
   <!-- Custom plone form widget -->
-  <browser:page
+  <!--<browser:page
     name="ploneform-render-widget"
     for=".audiovisualmaterial.IFormWidget"
     class="plone.app.z3cform.templates.RenderWidget"
     permission="zope.Public"
     template="audiovisual_templates/widget.pt"
-  />
+  />-->
 
   <!-- Custom Add and Edit form macro -->
   <browser:page
@@ -90,6 +90,7 @@
   <!-- -*- extra stuff goes here -*- -->
   <adapter name="library_author" factory=".utils.indexers.library_author" />
   <adapter name="library_year" factory=".utils.indexers.library_year" />
+  <adapter name="audiovisual_priref" factory=".utils.indexers.audiovisual_priref" />
   
   <adapter name="abstractAndSubjectTerms_biblForm" factory=".utils.indexers.abstractAndSubjectTerms_biblForm" />
   <adapter name="abstractAndSubjectTerms_materialType" factory=".utils.indexers.abstractAndSubjectTerms_materialType" />
